@@ -1,0 +1,26 @@
+name: myrssreader
+
+services:
+  backend:
+    build:
+      context: ./backend
+    environment:
+      DATABASE_URL: postgresql://rss_user:rss_password@db/rss_reader
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: rss_user
+      POSTGRES_PASSWORD: rss_password
+      POSTGRES_DB: rss_reader
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
